@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Product
 from django.contrib.auth import authenticate, login, logout
@@ -59,3 +59,8 @@ def register_user(request):
             return redirect(register)
 
     return render(request, 'store/register.html', {'form': form})
+
+
+def product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    return render(request, 'store/product.html', {'product': product})
