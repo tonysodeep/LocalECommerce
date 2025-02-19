@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .models import Product
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.models import User
+from .form import SignUpForm
 
 
 def home(request):
@@ -16,7 +18,7 @@ def about(request):
 
 
 def login_user(request):
-    #check casesensitive
+    # check casesensitive
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -36,3 +38,24 @@ def logout_user(request):
     logout(request)
     messages.success(request, message="you have be logout")
     return redirect('home')
+
+
+def register_user(request):
+    form = SignUpForm()
+
+    if request.method == 'POST':
+        print(type(request.POST))
+        form = SignUpForm(request.POST)
+        if (form.is_valid):
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            messages.success(request, message="you have success create user")
+            return redirect(home)
+        else:
+            messages.success(request, "there a problem!. Please try agian")
+            return redirect(register)
+
+    return render(request, 'store/register.html', {'form': form})
