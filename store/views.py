@@ -68,7 +68,6 @@ def product(request, product_id):
 
 
 def category(request, foo):
-    foo = foo.replace('-', ' ')
     try:
         category = Category.objects.get(name=foo)
         categories = Category.objects.all()
