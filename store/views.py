@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import Product
+from .models import Product, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -9,7 +9,8 @@ from .form import SignUpForm
 
 def home(request):
     product_list = Product.objects.all()
-    context = {'product_list': product_list}
+    category_list = Category.objects.all()
+    context = {'product_list': product_list, 'category_list': category_list}
     return render(request, 'store/index.html', context)
 
 
@@ -64,3 +65,21 @@ def register_user(request):
 def product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     return render(request, 'store/product.html', {'product': product})
+
+
+def category(request, foo):
+    foo = foo.replace('-', ' ')
+    try:
+        category = Category.objects.get(name=foo)
+        categories = Category.objects.all()
+        products = Product.objects.filter(category=category)
+        context = {
+            'product_list': products,
+            'category_list': categories,
+            'category': category
+        }
+        return render(request, 'store/category.html', context)
+    except Exception as e:
+        print(e)
+        messages.success(request, 'the category does not exist')
+        return redirect('home')
