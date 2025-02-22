@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 
 def cart_summary(request):
-    return render(request, 'cart_summary.html', {})
+    return render(request, 'cart/index.html', {})
 
 
 def cart_add(request):
