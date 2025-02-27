@@ -49,7 +49,7 @@
               <a class="dropdown-item" href="{% url 'home' %}">All Products</a>
             </li>
             <li><hr class="dropdown-divider" /></li>
-            {% for category in category_list %}
+            {% for category in store.category_list %}
             <li>
               <a class="dropdown-item" href="{% url 'category' category.name %}"
                 >{{category.name}}</a

@@ -61,6 +61,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'store.context_processors.store',
                 'cart.context_processors.cart',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',

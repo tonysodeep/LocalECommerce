@@ -9,8 +9,7 @@ from .form import SignUpForm
 
 def home(request):
     product_list = Product.objects.all()
-    category_list = Category.objects.all()
-    context = {'product_list': product_list, 'category_list': category_list}
+    context = {'product_list': product_list, }
     return render(request, 'store/index.html', context)
 
 
@@ -74,7 +73,6 @@ def category(request, foo):
         products = Product.objects.filter(category=category)
         context = {
             'product_list': products,
-            'category_list': categories,
             'category': category
         }
         return render(request, 'store/category.html', context)
