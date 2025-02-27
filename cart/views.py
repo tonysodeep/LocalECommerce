@@ -13,7 +13,6 @@ def cart_summary(request):
 def cart_add(request):
     # get cart
     cart = Cart(request)
-    print(f'{request.POST} & {type(request.POST)}')
     # test for POST
     if (request.POST.get('action') == 'post'):
         # get stuff
@@ -22,9 +21,15 @@ def cart_add(request):
         product = get_object_or_404(Product, id=product_id)
         # save to session
         cart.add(product)
+        # get cart quantity
+        cart_quantity = cart.__len__()
+
         # return respose
+        # respose = JsonResponse({
+        #     'Product Name': product.name
+        # })
         respose = JsonResponse({
-            'Product Name': product.name
+            'qty': cart_quantity
         })
         return respose
     return

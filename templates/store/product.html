@@ -54,7 +54,9 @@
         action: "post",
       },
       success: function (json) {
-        console.log(json);
+        // console.log(json);
+        //update navbar.html id cart_quantity
+        document.getElementById("cart_quantity").textContent = json.qty;
       },
       error: function (xhr, errmgs, err) {},
     });
