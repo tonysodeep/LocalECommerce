@@ -1,3 +1,6 @@
+from store.models import Product
+
+
 class Cart():
     def __init__(self, request):
         self.session = request.session
@@ -5,3 +8,12 @@ class Cart():
         if 'cart_session_key' not in request.session:
             cart = self.session['cart_session_key'] = {}
         self.cart = cart
+
+    def add(self, product: Product):
+        product_id = str(product.id)
+        if (product_id in self.cart):
+            pass
+        else:
+            self.cart[product_id] = {'price': str(product.price)}
+        
+        self.session.modified = True

@@ -17,7 +17,8 @@
           {% if product.is_sale %}
           <!-- Product price-->
           <p>
-            <strike> ${{ product.price }} </strike> &nbsp; ${{ product.sale_price }}
+            <strike> ${{ product.price }} </strike> &nbsp; ${{
+            product.sale_price }}
           </p>
           {% else %}
           <p>${{ product.price }}</p>
@@ -25,10 +26,38 @@
           <p class="card-text">
             <small class="text-body-secondary">Last updated 3 mins ago</small>
           </p>
-          <a href="{% url 'home' %}" class="btn"> Home </a>
+          <a href="{% url 'home' %}" class="btn btn-secondary"> Home </a>
+          <button
+            type="button"
+            value="{{ product.id }}"
+            id="add-cart"
+            class="btn btn-secondary"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  //check if button press
+  $(document).on("click", "#add-cart", function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cart:cart_add' %}",
+      data: {
+        product_id: $("#add-cart").val(),
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: "post",
+      },
+      success: function (json) {
+        console.log(json);
+      },
+      error: function (xhr, errmgs, err) {},
+    });
+  });
+</script>
 {% endblock %}
