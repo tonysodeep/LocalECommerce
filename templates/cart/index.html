@@ -33,6 +33,22 @@
           {% else %}
           <p>${{ product.price }}</p>
           {% endif %}
+          <br />
+          <div class="row rounded-start">
+            <div class="col-md-2">Quantity:</div>
+            <div class="col-md-2">
+              <select class="form-select" id="qty-cart">
+                {% for key,value in quantities.items %} {% if key == product.id|slugify %}
+                <option selected>{{ value }}</option>
+                {% endif %} {% endfor %}
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+          </div>
           <p class="card-text">
             <small class="text-body-secondary">Last updated 3 mins ago</small>
           </p>
@@ -44,7 +60,7 @@
   {% endfor %}
   <br />
   {% else %}
-  <p>There nothing in the cart yet </p>
+  <p>There nothing in the cart yet</p>
   <br />
   <br />
   {% endif %}

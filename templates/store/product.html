@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 <!-- Header-->
 <div class="container justify-content-center">
-  <div class="card mb-3" style="max-width: 540px">
+  <div class="card mb-3" style="max-width: 100">
     <div class="row g-0">
       <div class="col-md-4">
         <img
@@ -21,6 +21,20 @@
           </p>
           {% else %}
           <p>${{ product.price }}</p>
+          <div class="row rounded-start">
+            <div class="col-md-2">
+              Quantity: 
+            </div>
+            <div class="col-md-2">
+              <select class="form-select" id="qty-cart">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+          </div>
           {% endif %}
           <p class="card-text">
             <small class="text-body-secondary">Last updated 3 mins ago</small>
@@ -49,6 +63,7 @@
       url: "{% url 'cart:cart_add' %}",
       data: {
         product_id: $("#add-cart").val(),
+        product_qty: $("#qty-cart option:selected").text(),
         csrfmiddlewaretoken: "{{ csrf_token }}",
         action: "post",
       },
