@@ -4,12 +4,50 @@
   <div class="container px-4 px-lg-5 my-5">
     <div class="text-center text-white">
       <h1 class="display-4 fw-bolder">Cart</h1>
-      <p class="lead fw-normal text-white-50 mb-0">
-        View cart summary
-      </p>
+      <p class="lead fw-normal text-white-50 mb-0">View cart summary</p>
     </div>
   </div>
 </header>
 <!-- Section-->
- 
+<div class="container">
+  <br />
+  {% if cart_products %} {% for product in cart_products %}
+  <div class="card mb-3" style="max-width: 100">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img
+          src="{{ product.image.url }}"
+          class="img-fluid rounded-start"
+          alt="..."
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          {% if product.is_sale %}
+          <!-- Product price-->
+          <p>
+            <del> ${{ product.price }} </del> &nbsp; ${{ product.sale_price }}
+          </p>
+          {% else %}
+          <p>${{ product.price }}</p>
+          {% endif %}
+          <p class="card-text">
+            <small class="text-body-secondary">Last updated 3 mins ago</small>
+          </p>
+          <a href="{% url 'home' %}" class="btn btn-secondary"> Home </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <br />
+  {% else %}
+  <p>There nothing in the cart yet </p>
+  <br />
+  <br />
+  {% endif %}
+</div>
+
 {% endblock %}
