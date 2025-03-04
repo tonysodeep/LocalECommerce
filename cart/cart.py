@@ -1,4 +1,5 @@
 from store.models import Product
+from decimal import Decimal
 
 
 class Cart():
@@ -38,6 +39,19 @@ class Cart():
 
     def get_qty(self):
         return self.cart
+
+    def cart_total(self) -> Decimal:
+        product_ids = self.cart.keys()
+        products = Product.objects.filter(id__in=product_ids)
+        total = 0
+        for key, value in self.cart.items():
+            if products.get(pk=key).is_sale:
+                total += Decimal(total) + \
+                    products.get(pk=key).sale_price * value
+            else:
+                total += Decimal(total) + products.get(pk=key).price * value
+
+        return total
 
     def __len__(self):
         return len(self.cart)
