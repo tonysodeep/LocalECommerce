@@ -52,4 +52,11 @@ def cart_update(request):
 
 
 def cart_delete(request):
+    cart = Cart(request)
+    if (request.POST.get('action') == 'post'):
+        # get stuff
+        product_id = int(request.POST.get('product_id'))
+        cart.delete(product_id)
+        respose = JsonResponse({}, status=204)
+        return respose
     return

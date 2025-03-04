@@ -60,6 +60,13 @@
           >
             Update
           </button>
+          <button
+            type="button"
+            data-index="{{product.id}}"
+            class="remove-item btn btn-danger"
+          >
+            Remove
+          </button>
         </div>
       </div>
     </div>
@@ -92,7 +99,24 @@
       error: function (xhr, errmgs, err) {},
     });
   });
+  $(document).on("click", ".remove-item", function (e) {
+    e.preventDefault();
+    var productid = $(this).data("index");
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cart:cart_delete' %}",
+      data: {
+        product_id: productid,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: "post",
+      },
+      success: function (json, msg, xhr) {
+        // console.log(xhr.status);
+        location.reload();
+      },
+      error: function (xhr, errmgs, err) {},
+    });
+  });
 </script>
 
 {% endblock %}
-
