@@ -13,6 +13,10 @@ def home(request):
     return render(request, 'store/index.html', context)
 
 
+def category_summary(request):
+    return render(request, 'store/category_summary.html', {})
+
+
 def about(request):
     return render(request, 'store/about.html', {})
 
