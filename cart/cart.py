@@ -10,15 +10,16 @@ class Cart():
             cart = self.session['cart_session_key'] = {}
         self.cart = cart
 
-    def add(self, product: Product, quantity: int):
+    def add(self, product: Product, quantity: int) -> bool:
         product_id = str(product.id)
         product_qty = quantity
         if (product_id in self.cart):
-            pass
+            return False
         else:
             # self.cart[product_id] = {'price': str(product.price)}
             self.cart[product_id] = int(product_qty)
-        self.session.modified = True
+            self.session.modified = True
+            return True
 
     def get_prods(self):
         product_ids = self.cart.keys()

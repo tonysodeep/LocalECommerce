@@ -84,7 +84,8 @@
       success: function (json) {
         // console.log(json);
         //update navbar.html id cart_quantity
-        document.getElementById("cart_quantity").textContent = json.qty;
+        // document.getElementById("cart_quantity").textContent = json.qty;
+        location.reload();
       },
       error: function (xhr, errmgs, err) {},
     });
