@@ -4,7 +4,7 @@ from .models import Product, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .form import SignUpForm
+from .form import SignUpForm, UpdateUserForm
 
 
 def home(request):
@@ -48,7 +48,6 @@ def register_user(request):
     form = SignUpForm()
 
     if request.method == 'POST':
-        print(type(request.POST))
         form = SignUpForm(request.POST)
         if (form.is_valid):
             form.save()
@@ -57,12 +56,28 @@ def register_user(request):
             user = authenticate(request, username=username, password=password)
             login(request, user)
             messages.success(request, message="you have success create user")
-            return redirect(home)
+            return redirect('home')
         else:
             messages.success(request, "there a problem!. Please try agian")
-            return redirect(register)
+            return redirect('register')
 
     return render(request, 'store/register.html', {'form': form})
+
+
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(pk=request.user.id)
+        user_form = UpdateUserForm(request.POST or None, instance=current_user)
+        if user_form.is_valid():
+            user_form.save()
+            login(request, current_user)
+            messages.success(request, message="you have success update user")
+            return redirect('home')
+        else:
+            return render(request, 'store/update_user.html', {'user_form': user_form})
+    else:
+        messages.success(request, message="you must login to access this page")
+        return redirect('login')
 
 
 def product(request, product_id):
