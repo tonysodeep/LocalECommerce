@@ -4,7 +4,7 @@ from .models import Product, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .form import SignUpForm, UpdateUserForm
+from .form import SignUpForm, UpdateUserForm, ChangePasswordForm
 
 
 def home(request):
@@ -78,6 +78,28 @@ def update_user(request):
     else:
         messages.success(request, message="you must login to access this page")
         return redirect('login')
+
+
+def update_password(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+        if request.method == 'POST':
+            form = ChangePasswordForm(current_user, request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Your password have been updated')
+                login(request, current_user)
+                return redirect('update_user')
+            else:
+                for error in list(form.errors.values()):
+                    messages.error(request, error)
+                return redirect('update_password')
+        else:
+            form = ChangePasswordForm(current_user)
+            return render(request, 'store/update_password.html', {'form': form})
+    else:
+        messages.success(request, 'You must login first')
+        return redirect('home')
 
 
 def product(request, product_id):
